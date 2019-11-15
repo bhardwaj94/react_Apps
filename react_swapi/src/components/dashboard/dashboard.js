@@ -11,7 +11,7 @@ class Dashboard extends React.Component {
     login: this.props.login,
     searchStr: '',
     openPlanetDiag: false,
-    selectedPlanet:{}
+    selectedPlanet: {}
   }
   componentDidMount() {
     const { dispatch, searchStr } = this.props;
@@ -23,10 +23,15 @@ class Dashboard extends React.Component {
   }
 
   onPlanetClick = (item, open) => {
-    this.setState({ selectedPlanet: item,openPlanetDiag:open });
+    this.setState({ selectedPlanet: item, openPlanetDiag: open });
   }
-  handleClose = bool =>{
+  handleClose = bool => {
     this.setState({ openPlanetDiag: bool });
+  }
+  componentDidUpdate(prevProps) {
+    if (!this.props.loggedIn || !localStorage.getItem('token')) {
+      this.props.history.push('/');
+    }
   }
   render() {
     const { searchStr, items, isFetching } = this.props;
@@ -45,7 +50,7 @@ class Dashboard extends React.Component {
             </ul>
           }
         </Paper> : null}
-        <PlanetDiag item={this.state.selectedPlanet} handleClose={()=>{this.handleClose(false)}} open={this.state.openPlanetDiag}/>
+        <PlanetDiag item={this.state.selectedPlanet} handleClose={() => { this.handleClose(false) }} open={this.state.openPlanetDiag} />
       </React.Fragment>
     )
   }
@@ -63,7 +68,8 @@ function mapStateToProps(state) {
     searchStr,
     items,
     isFetching,
-    login: state.login
+    login: state.login,
+    loggedIn: state.userReducer.authenticated
   };
 }
 

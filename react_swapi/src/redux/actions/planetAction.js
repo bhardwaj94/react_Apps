@@ -28,10 +28,10 @@ function receiveItems(searchStr, items) {
 }
 
 function compareNames(a, b) {
-    if (a.name < b.name) {
+    if (a.population < b.population) {
         return -1;
     }
-    if (a.name > b.name) {
+    if (a.population > b.population) {
         return 1;
     }
     return 0;
